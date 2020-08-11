@@ -1,21 +1,27 @@
 package edu.upenn.cit594.data;
 
+/**
+ * 
+ * @author yuyuan.lin
+ * Each population entry is an instance of PopulationData
+ *
+ */
 public class PopulationData {
-	private int zipCode;
-	private int population;
+	private String zipCode;
+	private String population;
 	
-	public parkingData(int zipCode, int population) {
+	public PopulationData(String zipCode, String population) {
 		this.zipCode = zipCode;
 		this.population = population;
 	}
 	
 	
-	public int getZipCode() {
-		
+	public String getZipCode() {
+		return zipCode;
 	}
 	
-	public int getPopulation() {
-		
+	public String getPopulation() {
+		return population;
 	}
 
 }

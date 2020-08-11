@@ -1,21 +1,28 @@
 package edu.upenn.cit594.data;
 
+/**
+ * 
+ * @author yuyuan.lin
+ * Each parking entry is an instance of ParkingData
+ *
+ */
+
 public class ParkingData {
-	private int fine;
-	private int zipCode;
+	private String fine;
+	private String zipCode;
 	
-	public ParkingData(int fine, int zipCode) {
+	public ParkingData(String fine, String zipCode) {
 		this.fine = fine;
 		this.zipCode = zipCode;
 		
 	}
 	
-	public int getZipCode() {
-		
+	public String getZipCode() {
+		return zipCode;
 	}
 	
-	public int getFine() {
-		
+	public String getFine() {
+		return zipCode;
 	}
 
 }

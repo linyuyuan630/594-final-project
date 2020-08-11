@@ -1,27 +1,34 @@
 package edu.upenn.cit594.data;
 
+/**
+ * 
+ * @author yuyuan.lin
+ * Each property entry is an instance of PropertyData
+ */
 public class PropertyData {
-	private int marketValue;
-	private int totalLivableArea;
-	private int zipCode;
+	private String marketValue;
+	private String totalLivableArea;
+	private String zipCode;
 	
-	public parkingData(int marketValue, int totalLiverableArea, int zipCode) {
+	public PropertyData(String marketValue, String totalLivableArea, String zipCode) {
 		this.marketValue = marketValue;
-		this.totalLiverableArea = totalLiverableArea;
+		this.totalLivableArea = totalLivableArea;
 		this.zipCode = zipCode;
-		
 	}
 	
 	
-	public int getMarketValue() {
+	public String getMarketValue() {
+		return marketValue;
 		
 	}
 	
-	public int getTotalLiverableArea() {
+	public String getTotalLiverableArea() {
+		return totalLivableArea;
 		
 	}
 	
-	public int getZipCode() {
+	public String getZipCode() {
+		return zipCode;
 	}
 
 }

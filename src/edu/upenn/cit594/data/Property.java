@@ -1,27 +1,28 @@
 package edu.upenn.cit594.data;
 
-public class PropertyData {
+public class Property {
 	private int marketValue;
 	private int totalLivableArea;
-	private int zipCode;
+	private String zipCode; //zip code shouldn't be int....
 	
-	public parkingData(int marketValue, int totalLiverableArea, int zipCode) {
+	public Property(int marketValue, int totalLiverableArea, String zipCode) {
 		this.marketValue = marketValue;
-		this.totalLiverableArea = totalLiverableArea;
+		this.totalLivableArea = totalLiverableArea;
 		this.zipCode = zipCode;
 		
 	}
 	
 	
 	public int getMarketValue() {
-		
+		return -1;
 	}
 	
 	public int getTotalLiverableArea() {
-		
+		return -1;
 	}
 	
-	public int getZipCode() {
+	public String getZipCode() {
+		return null;
 	}
 
 }

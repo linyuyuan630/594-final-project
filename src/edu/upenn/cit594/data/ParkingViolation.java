@@ -1,21 +1,21 @@
 package edu.upenn.cit594.data;
 
-public class ParkingData {
+public class ParkingViolation {
 	private int fine;
-	private int zipCode;
+	private String zipCode;
 	
-	public ParkingData(int fine, int zipCode) {
+	public ParkingViolation(int fine, String zipCode) {
 		this.fine = fine;
 		this.zipCode = zipCode;
 		
 	}
 	
-	public int getZipCode() {
-		
+	public String getZipCode() {
+		return "";
 	}
 	
 	public int getFine() {
-		
+		return -1;
 	}
 
 }

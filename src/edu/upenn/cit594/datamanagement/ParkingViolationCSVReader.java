@@ -2,19 +2,22 @@ package edu.upenn.cit594.datamanagement;
 
 import java.util.List;
 
-import edu.upenn.cit594.data.ParkingData;
+import edu.upenn.cit594.data.ParkingViolation;
 
-public class ParkingCSVReader implements ParkingReader{
-	protected String parkingFilename;
+public class ParkingViolationCSVReader extends ParkingViolationReader{
+	List<ParkingViolation> parkingViolations;
 	
-	public ParkingCSVReader(String parkingFilename) {
-		this.parkingFilename = parkingFilename;	
+	public ParkingViolationCSVReader(String parkingFilename) {
+		this.loadParkingViolations(parkingFilename);
+	}
+	
+	private void loadParkingViolations(String parkingFilename) {
+		//load data from input file to parkingViolations list. 
 	}
 
 	@Override
-	public List<ParkingData> readAllParkings() {
+	public List<ParkingViolation> readAllParkingViolations() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

@@ -6,18 +6,33 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import edu.upenn.cit594.data.ParkingData;
-import edu.upenn.cit594.datamanagement.ParkingReader;
+import edu.upenn.cit594.data.ParkingViolation;
+import edu.upenn.cit594.datamanagement.ParkingViolationReader;
 
 
-public abstract class ParkingProcessor {
+public class ParkingViolationProcessor {
 	
-	protected ParkingReader parkingReader;
-	protected List<ParkingData> allParkingData;
+	private ParkingViolationReader parkingViolationReader;
 	
-	public ParkingProcessor(String parkingFilename) {
+	public ParkingViolationProcessor(String parkingFilename) {
+		
 	}
 	
-	protected abstract ParkingReader createReader(String parkingFilename);
+	/**
+	 * 2. Total Fines Per Capita
+	 * @return
+	 */
+	public int totalFinePerCapital() {
+		return -1;
+	}
+	
+	/**
+	 * 2. Total Fines Per Capita
+	 * @param zipCode
+	 * @return
+	 */
+	public int totalFinePerCapital(String zipCode) {
+		return -1;
+	}
 
 }

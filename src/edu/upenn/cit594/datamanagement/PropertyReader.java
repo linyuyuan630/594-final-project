@@ -50,9 +50,27 @@ public class PropertyReader {
 	        
 			while (line != null) {
 				String[] lineInfo = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
-				marketValue = Integer.valueOf(lineInfo[marketValueIndex]);
-				totalLivableArea = Integer.valueOf(lineInfo[totalLivableAreaIndex]);
-				zipCode = lineInfo[zipCodeIndex];
+				if (CheckNumeric.isNumeric(lineInfo[marketValueIndex]) == false) {
+					marketValue = null;
+				}
+				else {
+					marketValue = Integer.valueOf(lineInfo[marketValueIndex]);
+				}
+				
+				if (CheckNumeric.isNumeric(lineInfo[totalLivableAreaIndex]) == false) {
+					totalLivableArea = null;
+				}
+				else {
+					totalLivableArea = Integer.valueOf(lineInfo[totalLivableAreaIndex]);
+				}
+				
+				if (CheckNumeric.isNumeric(lineInfo[zipCodeIndex]) == false) {
+					zipCode = null;
+				}
+				else {
+					zipCode = lineInfo[zipCodeIndex].substring(0, 5);
+				}
+				
 				Property propertyEntry = new Property(marketValue, totalLivableArea, zipCode);
 				propertyList.add(propertyEntry);
 				line = br.readLine();

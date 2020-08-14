@@ -14,16 +14,8 @@ public class Logger {
 		catch (Exception e) {}
 	}
 
-	private static Logger instance = null;
-	
-	/**
-	 * 1. Use the Singleton design pattern to implement the file logger in Step #7.
-	 * @return Logger
-	 */
+	private static Logger instance = new Logger("log.txt");
 	public static Logger getInstance() {
-		if(instance==null) {
-			instance = new Logger("log.txt");
-		}
 		return instance;
 	}
 	

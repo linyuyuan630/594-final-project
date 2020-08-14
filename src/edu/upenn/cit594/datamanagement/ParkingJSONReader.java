@@ -12,24 +12,21 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import edu.upenn.cit594.data.ParkingData;
+import edu.upenn.cit594.data.ParkingViolation;
 
-/**
- * the reader reads all the entries in the property file in JSON format and returns
- * an ArrayList contains all of the entries
- */
-
-public class ParkingJSONReader implements ParkingReader{
+public class ParkingJSONReader extends ParkingReader{
 	protected String parkingFilename;
 	
+	List<ParkingViolation> allParkingViolations;
+	
 	public ParkingJSONReader(String parkingFilename) {
-		this.parkingFilename = parkingFilename;	
+		this.loadParkingViolations(parkingFilename);
 	}
 
-	@Override
-	public List<ParkingData> readAllParkings() {
+	private void loadParkingViolations(String parkingFilename) {
+		//load data from input file to parkingViolations list. 
 		// create a parser
-		List<ParkingData> allParkings = new ArrayList<ParkingData>();
+		allParkingViolations = new ArrayList<ParkingViolation>();
 		JSONParser parser = new JSONParser();
 		try {
 			// open the file and get the array of JSON objects
@@ -41,9 +38,9 @@ public class ParkingJSONReader implements ParkingReader{
 			// get the next JSON object
 			JSONObject parkingViolation = (JSONObject) iter.next();
 			// use the "get" method to print the value associated with that key
-			ParkingData parkingEntry = new ParkingData(parkingViolation.get("fine").toString(),
+			ParkingViolation parkingEntry = new ParkingViolation(Integer.valueOf(parkingViolation.get("fine").toString()),
 					parkingViolation.get("zip_code").toString());
-			allParkings.add(parkingEntry);
+			allParkingViolations.add(parkingEntry);
 			}
 			
 		}
@@ -56,7 +53,15 @@ public class ParkingJSONReader implements ParkingReader{
 		catch (ParseException e) {
 			e.printStackTrace();
 			}
-		return allParkings;
 	}
-}
 
+	
+	@Override
+	public List<ParkingViolation> readAllParkingViolations() {
+		// TODO Auto-generated method stub
+		return allParkingViolations;
+	}
+	
+	
+
+}

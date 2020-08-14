@@ -6,33 +6,29 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.upenn.cit594.data.ParkingData;
+import edu.upenn.cit594.data.ParkingViolation;
 
-/**
- * the reader reads all the entries in the property file in csv format and returns
- * an ArrayList contains all of the entries
- */
-
-public class ParkingCSVReader implements ParkingReader{
-	protected String parkingFilename;
+public class ParkingCSVReader extends ParkingReader{
+	List<ParkingViolation> allParkingViolations;
 	
 	public ParkingCSVReader(String parkingFilename) {
-		this.parkingFilename = parkingFilename;	
+		this.loadParkingViolations(parkingFilename);
 	}
-
-	@Override
-	public List<ParkingData> readAllParkings() {
-		List<ParkingData> allParkings = new ArrayList<ParkingData>();
+	
+	private void loadParkingViolations(String parkingFilename) {
+		allParkingViolations = new ArrayList<ParkingViolation>();
 		try {
 			FileReader fr = new FileReader(parkingFilename); 
 	        BufferedReader br = new BufferedReader(fr); 
 	        String line = br.readLine();
 			while (line != null) {
 				String[] lineInfo = line.split(",");
-				String fine = lineInfo[1];
+				Integer fine = Integer.valueOf(lineInfo[1]);
 				String zipCode = lineInfo[lineInfo.length - 1];
-				ParkingData parkingEntry = new ParkingData(fine, zipCode);
-				allParkings.add(parkingEntry);
+				//System.out.println(fine);
+				//System.out.println(zipCode);
+				ParkingViolation parkingEntry = new ParkingViolation(fine, zipCode);
+				allParkingViolations.add(parkingEntry);
 				line = br.readLine();
 			}
 
@@ -40,7 +36,11 @@ public class ParkingCSVReader implements ParkingReader{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
-		return allParkings;	
 	}
 
+	@Override
+	public List<ParkingViolation> readAllParkingViolations() {
+		// TODO Auto-generated method stub
+		return allParkingViolations;
+	}
 }

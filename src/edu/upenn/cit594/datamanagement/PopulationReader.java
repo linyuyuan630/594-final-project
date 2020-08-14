@@ -6,41 +6,64 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.upenn.cit594.data.PopulationData;
+import edu.upenn.cit594.data.Population;
 
-/**
- * the reader reads all the entries in the population file in csv format and returns
- * an ArrayList contains all of the entries
- */
 public class PopulationReader {
-	
-	protected String populationFilename;
+		
+	private List<Population> populationList;
+	//protected String populationFilename;
 	
 	public PopulationReader(String populationFilename) {
-		this.populationFilename = populationFilename;	
+		//this.populationFilename = populationFilename;
+		this.loadPopulations(populationFilename);
 	}
 	
-	public List<PopulationData> readAllPopulation() {
-		List<PopulationData> allPopulations = new ArrayList<PopulationData>();
+	private void loadPopulations(String populationFilename) {
+		//to load data from input file to populationList
+		populationList = new ArrayList<Population>();
 		try {
 			FileReader fr = new FileReader(populationFilename); 
 	        BufferedReader br = new BufferedReader(fr); 
 	        String line = br.readLine();
 			while (line != null) {
 				String[] lineInfo = line.split("\\s");
-				String population = lineInfo[1];
+				Integer population = Integer.valueOf(lineInfo[1]);
 				String zipCode = lineInfo[0];
-				PopulationData populationEntry = new PopulationData(zipCode, population);
-				allPopulations.add(populationEntry);
+				Population populationEntry = new Population(zipCode, population);
+				populationList.add(populationEntry);
 				line = br.readLine();
 			}
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
-		return allPopulations;	
+		}
 	}
-}
+	
+	public List<Population> readAllPopulation() {
+		return populationList;	
+	}
+	/**
+	public int totalPopulation() {
+		int total = 0;
+		for (int i = 0; i < populationList.size(); i++)  {
+			int population = populationList.get(i).getPopulation();
+			total = total + population;
+		}
+		return total;
+	}
+	
+	public int totalPopulation(String zipCode) {
+		int totalInZipCode = 0;
+		for(int i = 0; i < populationList.size(); i++) {
+			if (zipCode.equals(populationList.get(i).getZipCode())) {
+				 totalInZipCode = totalInZipCode + populationList.get(i).getPopulation();
+			}
+		}
+		return totalInZipCode;
+	}
+	**/
 
+
+}
 

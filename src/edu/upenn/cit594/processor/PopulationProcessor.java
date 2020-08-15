@@ -1,5 +1,6 @@
 package edu.upenn.cit594.processor;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -14,8 +15,8 @@ public class PopulationProcessor {
 	private Set<String> zipCodeSet;
 	//private PopulationReader populationReader = null;
 	
-	public PopulationProcessor(String populationFilename) {
-		populationReader = new PopulationReader(populationFilename);
+	public PopulationProcessor(String populationFilename) throws IOException {
+		populationReader = PopulationReader.getInstance(populationFilename);
 		populationList = populationReader.readAllPopulation();
 		zipCodeSet = createZipCodeSet(); 
 	}
@@ -41,7 +42,7 @@ public class PopulationProcessor {
 	public int totalPopulationInZipCode(String zipCode) {
 		int totalInZipCode = 0;
 		for(int i = 0; i < populationList.size(); i++) {
-			if (zipCode.equals(populationList.get(i).getZipCode())) {
+			if (zipCode.equalsIgnoreCase(populationList.get(i).getZipCode())) {
 				 totalInZipCode = totalInZipCode + populationList.get(i).getPopulation();
 			}
 		}

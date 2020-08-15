@@ -4,8 +4,7 @@ import java.io.File;
 import java.io.PrintWriter;
 
 public class Logger {
-	public static String logfileName;
-	//private static String filename;
+	public static String LOGFILENAME;
 	private PrintWriter out;
 	private Logger(String filename) {
 		try {
@@ -14,8 +13,14 @@ public class Logger {
 		catch (Exception e) {}
 	}
 
-	private static Logger instance = new Logger("log.txt");
+	private static Logger instance = null;;
 	public static Logger getInstance() {
+		if(Logger.LOGFILENAME==null) {
+			return null;
+		}
+		if(instance==null) {
+			instance = new Logger(Logger.LOGFILENAME);
+		}
 		return instance;
 	}
 	

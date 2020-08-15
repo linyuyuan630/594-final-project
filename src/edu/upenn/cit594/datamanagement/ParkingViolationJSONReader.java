@@ -13,24 +13,39 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import edu.upenn.cit594.data.ParkingViolation;
+import edu.upenn.cit594.logging.Logger;
 
 public class ParkingViolationJSONReader extends ParkingViolationReader{
 	protected String parkingFilename;
 	
 	List<ParkingViolation> allParkingViolations;
 	
-	public ParkingViolationJSONReader(String parkingFilename) {
-		this.loadParkingViolations(parkingFilename);
+	private static ParkingViolationJSONReader reader;
+	
+	public static ParkingViolationJSONReader getInstance(String parkingFilename) throws IOException {
+		if(reader==null) {
+			reader = new ParkingViolationJSONReader(parkingFilename);
+		}
+		return reader;
+	}
+	
+	private ParkingViolationJSONReader(String parkingFilename) throws IOException {
+		if(allParkingViolations==null) {//optimization - assume the data set cannot be changed during run time
+			this.loadParkingViolations(parkingFilename);
+		}
 	}
 
-	private void loadParkingViolations(String parkingFilename) {
+	private void loadParkingViolations(String parkingFilename) throws IOException {
 		//load data from input file to parkingViolations list. 
 		// create a parser
 		allParkingViolations = new ArrayList<ParkingViolation>();
 		JSONParser parser = new JSONParser();
 		try {
 			// open the file and get the array of JSON objects
-			JSONArray fluTweets = (JSONArray)parser.parse(new FileReader(parkingFilename));
+			FileReader fr = new FileReader(parkingFilename);
+			JSONArray fluTweets = (JSONArray)parser.parse(fr);
+			//logging
+			Logger.getInstance().log(System.currentTimeMillis()+" Openning file:"+parkingFilename);
 			// use an iterator to iterate over each element of the array
 			Iterator iter = fluTweets.iterator();
 			// iterate while there are more objects in array
@@ -42,17 +57,13 @@ public class ParkingViolationJSONReader extends ParkingViolationReader{
 					parkingViolation.get("zip_code").toString());
 			allParkingViolations.add(parkingEntry);
 			}
-			
 		}
-		catch (FileNotFoundException e) {
-			e.printStackTrace();
-        } 
 		catch (IOException e) {
-			e.printStackTrace();
-			} 
+			throw e;
+		} 
 		catch (ParseException e) {
 			e.printStackTrace();
-			}
+		}
 	}
 
 	

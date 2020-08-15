@@ -1,6 +1,7 @@
 package edu.upenn.cit594.processor;
 
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,16 +10,22 @@ import edu.upenn.cit594.data.Property;
 import edu.upenn.cit594.datamanagement.PropertyReader;
 
 public class PropertyProcessor {
+	private ParkingViolationProcessor parkingProcessor;
+	private PopulationProcessor populationProcessor;
 	private PropertyReader propertyReader;
 	private List<Property> propertyList;
-	private String populationFilename;
-	private String parkingFilename;
+//	private String populationFilename;
+//	private String parkingFilename;
 	
-	public PropertyProcessor(String propertyFilename, String populationFilename, String parkingFilename) {
-		propertyReader = new PropertyReader(propertyFilename);
+	public PropertyProcessor(String propertyFilename, ParkingViolationProcessor parkingProcesso, PopulationProcessor populationProcessor) throws IOException {
+		propertyReader = PropertyReader.getInstance(propertyFilename);
 		propertyList = propertyReader.readAllProperties();
-		this.populationFilename = populationFilename;
-		this.parkingFilename = parkingFilename;
+		
+		this.parkingProcessor = parkingProcesso;
+		this.populationProcessor = populationProcessor;
+		
+//		this.populationFilename = populationFilename;
+//		this.parkingFilename = parkingFilename;
 	}
 		
 	/**
@@ -54,16 +61,17 @@ public class PropertyProcessor {
 	/**
 	 * 5. Total Residential Market Value Per Capita
 	 * @return
+	 * @throws IOException 
 	 */
-	public double totalResidentialMktValuePerCapita(String zipCode) {
-		PopulationProcessor populations = new PopulationProcessor(populationFilename);
-		int populationInZipCode = populations.totalPopulationInZipCode(zipCode);
+	public double totalResidentialMktValuePerCapita(String zipCode) throws IOException {
+//		PopulationProcessor populations = new PopulationProcessor(populationFilename);
+		int populationInZipCode = this.populationProcessor.totalPopulationInZipCode(zipCode);
 		double totalValue = 0;
 		for (int i = 0; i < propertyList.size(); i++ ) {
 			String propertyZipCode = propertyList.get(i).getZipCode();
 			Double propertyMktValue = propertyList.get(i).getMarketValue();
 			if (propertyMktValue != null && propertyZipCode != null) {
-				if (zipCode.equals(propertyZipCode)) {
+				if (zipCode.equalsIgnoreCase(propertyZipCode)) {
 					totalValue += propertyMktValue;
 				}	
 			}
@@ -80,9 +88,10 @@ public class PropertyProcessor {
 	
 	/**
 	 * 6. cross-correlation coefficient between fine per capita and residential market value per Capita for all zip codes
+	 * @throws IOException 
 	 */
 
-	public double fineMktValueCorrelation() {
+	public double fineMktValueCorrelation() throws IOException {
 		Map<String, Double> propertyMktValueOfZipCode = new HashMap<String, Double>();
 		for (int i = 0; i < propertyList.size(); i++ ) {
 			String propertyZipCode = propertyList.get(i).getZipCode();
@@ -100,12 +109,12 @@ public class PropertyProcessor {
 		}
 		Map<String, Double> mktValuePerCapita = new HashMap<String, Double>();
 		for (String code : propertyMktValueOfZipCode.keySet()) {
-			PopulationProcessor populations = new PopulationProcessor(populationFilename);
-			int populationInZipCode = populations.totalPopulationInZipCode(code);
+//			PopulationProcessor populations = new PopulationProcessor(populationFilename);
+			int populationInZipCode = this.populationProcessor.totalPopulationInZipCode(code);
 			mktValuePerCapita.put(code, propertyMktValueOfZipCode.get(code) / populationInZipCode * 0.1);
 		}
-		ParkingViolationProcessor parkingViolations = new ParkingViolationProcessor (parkingFilename, populationFilename);
-		Map<String, Double> finePerCapita = parkingViolations.TotalFinePerCapita();
+//		ParkingViolationProcessor parkingViolations = new ParkingViolationProcessor (parkingFilename, populationFilename);
+		Map<String, Double> finePerCapita = this.parkingProcessor.TotalFinePerCapita();
 		
 		double varFinePerCapita = StatisticalComputer.computeCovariance(finePerCapita, finePerCapita);
 		double varMktPerCapita = StatisticalComputer.computeCovariance(mktValuePerCapita, mktValuePerCapita);

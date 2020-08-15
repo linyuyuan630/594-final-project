@@ -10,23 +10,44 @@ import java.util.Map;
 
 import edu.upenn.cit594.data.Population;
 import edu.upenn.cit594.data.Property;
+import edu.upenn.cit594.logging.Logger;
 
 public class PropertyReader {
 		
 	private List<Property> propertyList;
 	
-	public PropertyReader(String propertyFilename) {
-		this.loadProperties(propertyFilename);
+	private static PropertyReader reader;
+	
+	/**
+	 * Singleton design pattern
+	 * @param propertyFilename
+	 * @return PropertyReader
+	 * @throws IOException 
+	 */
+	public static PropertyReader getInstance(String propertyFilename) throws IOException {
+		if(reader==null) {
+			reader = new PropertyReader(propertyFilename);
+		}
+		return reader;
+	}
+	
+	private PropertyReader(String propertyFilename) throws IOException {
+		if(propertyList==null) {//optimization - assume the data set cannot be changed during run time
+			this.loadProperties(propertyFilename);
+		}
 	}
 	
 	/**
 	 * load properties from the file
+	 * @throws IOException 
 	 */
-	private void loadProperties(String propertyFilename) {
+	private void loadProperties(String propertyFilename) throws IOException {
 		propertyList = new ArrayList<Property>();
 		try {
 			FileReader fr = new FileReader(propertyFilename); 
 	        BufferedReader br = new BufferedReader(fr); 
+	        //logging
+			Logger.getInstance().log(System.currentTimeMillis()+" Openning file:"+propertyFilename);
 	        String line = br.readLine();
 	        String columnNames[] = line.split(",");
 	        int marketValueIndex = 0;
@@ -77,7 +98,7 @@ public class PropertyReader {
 	        
 		}
 		catch (IOException e) {
-			e.printStackTrace();
+			throw e;
 		} 
 	}
 	

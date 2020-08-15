@@ -7,23 +7,37 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.upenn.cit594.data.Population;
+import edu.upenn.cit594.logging.Logger;
 
 public class PopulationReader {
 		
 	private List<Population> populationList;
 	//protected String populationFilename;
 	
-	public PopulationReader(String populationFilename) {
-		//this.populationFilename = populationFilename;
-		this.loadPopulations(populationFilename);
+	private static PopulationReader reader;
+	
+	public static PopulationReader getInstance(String populationFilename) throws IOException {
+		if(reader==null) {
+			reader = new PopulationReader(populationFilename);
+		}
+		return reader;
 	}
 	
-	private void loadPopulations(String populationFilename) {
+	private PopulationReader(String populationFilename) throws IOException {
+		//this.populationFilename = populationFilename;
+		if(this.populationList==null) {//optimization - assume the data set cannot be changed during run time
+			this.loadPopulations(populationFilename);
+		}
+	}
+	
+	private void loadPopulations(String populationFilename) throws IOException {
 		//to load data from input file to populationList
-		populationList = new ArrayList<Population>();
+		this.populationList = new ArrayList<Population>();
 		try {
 			FileReader fr = new FileReader(populationFilename); 
 	        BufferedReader br = new BufferedReader(fr); 
+	        //logging
+			Logger.getInstance().log(System.currentTimeMillis()+" Openning file:"+populationFilename);
 	        String line = br.readLine();
 			while (line != null) {
 				String[] lineInfo = line.split("\\s");
@@ -35,8 +49,7 @@ public class PopulationReader {
 			}
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw e;
 		}
 	}
 	

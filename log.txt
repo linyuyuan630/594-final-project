@@ -1,0 +1,16 @@
+1597516671000 json parkingTest.csv propertyTest.csv populationTest.txt log.txt
+1597516671003 Openning file:parkingTest.csv
+1597516671005 Openning file:populationTest.txt
+1597516671012 Openning file:propertyTest.csv
+1597516673337 user's choice:1
+1597516675147 user's choice:2
+1597516676110 user's choice:3
+1597516678547 user's input zipcode:19102
+1597516679670 user's choice:3
+1597516682523 user's input zipcode:19103
+1597516684190 user's choice:4
+1597516686833 user's input zipcode:19104
+1597516688616 user's choice:5
+1597516690813 user's input zipcode:19104
+1597516692100 user's choice:6
+1597516696546 user's choice:0

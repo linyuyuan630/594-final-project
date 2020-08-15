@@ -7,18 +7,18 @@ import java.util.TreeMap;
 import java.util.Map.Entry;
 
 import edu.upenn.cit594.data.ParkingViolation;
-import edu.upenn.cit594.datamanagement.ParkingReader;
+import edu.upenn.cit594.datamanagement.ParkingViolationReader;
 
 
 
-public class ParkingProcessor {
+public class ParkingViolationProcessor {
 	
-	private ParkingReader parkingViolationReader;
+	private ParkingViolationReader parkingViolationReader;
 	private List<ParkingViolation> parkingViolationList;
 	private String populationFilename;
 	
-	public ParkingProcessor(String parkingFilename, String populationFilename) {
-		parkingViolationReader = ParkingReader.getInstance(parkingFilename);
+	public ParkingViolationProcessor(String parkingFilename, String populationFilename) {
+		parkingViolationReader = ParkingViolationReader.getInstance(parkingFilename);
 		parkingViolationList = parkingViolationReader.readAllParkingViolations();
 		this.populationFilename = populationFilename;
 		

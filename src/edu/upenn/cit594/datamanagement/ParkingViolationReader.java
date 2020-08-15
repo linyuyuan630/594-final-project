@@ -4,7 +4,7 @@ import java.util.List;
 
 import edu.upenn.cit594.data.ParkingViolation;
 
-public abstract class ParkingReader {	
+public abstract class ParkingViolationReader {	
 	
 	
 	public abstract List<ParkingViolation> readAllParkingViolations();
@@ -14,7 +14,7 @@ public abstract class ParkingReader {
 	 * @param file
 	 * @return
 	 */
-	public static ParkingReader getInstance(String fileName) {
+	public static ParkingViolationReader getInstance(String fileName) {
 		if (fileName == null) {
 			return null;
 		}
@@ -25,10 +25,10 @@ public abstract class ParkingReader {
 			}
 		
 		if (fileExtension.toLowerCase().equals("csv")) {
-			return new ParkingCSVReader(fileName);
+			return new ParkingViolationCSVReader(fileName);
 		}
 		else if (fileExtension.toLowerCase().equals("json")) {
-			return new ParkingJSONReader(fileName);
+			return new ParkingViolationJSONReader(fileName);
 		}
 		return null;
 		

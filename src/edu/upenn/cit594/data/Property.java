@@ -1,11 +1,11 @@
 package edu.upenn.cit594.data;
 
 public class Property {
-	private Integer marketValue;
+	private Double marketValue;
 	private Integer totalLivableArea;
-	private String zipCode; //zip code shouldn't be int....
+	private String zipCode; 
 	
-	public Property(Integer marketValue, Integer totalLiverableArea, String zipCode) {
+	public Property(Double marketValue, Integer totalLiverableArea, String zipCode) {
 		this.marketValue = marketValue;
 		this.totalLivableArea = totalLiverableArea;
 		this.zipCode = zipCode;
@@ -13,7 +13,7 @@ public class Property {
 	}
 	
 	
-	public Integer getMarketValue() {
+	public Double getMarketValue() {
 		return marketValue;
 	}
 	

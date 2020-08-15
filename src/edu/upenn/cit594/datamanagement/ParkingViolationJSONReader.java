@@ -14,12 +14,12 @@ import org.json.simple.parser.ParseException;
 
 import edu.upenn.cit594.data.ParkingViolation;
 
-public class ParkingJSONReader extends ParkingReader{
+public class ParkingViolationJSONReader extends ParkingViolationReader{
 	protected String parkingFilename;
 	
 	List<ParkingViolation> allParkingViolations;
 	
-	public ParkingJSONReader(String parkingFilename) {
+	public ParkingViolationJSONReader(String parkingFilename) {
 		this.loadParkingViolations(parkingFilename);
 	}
 

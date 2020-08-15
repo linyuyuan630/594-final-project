@@ -2,8 +2,8 @@ package edu.upenn.cit594;
 
 import java.io.File;
 
-import edu.upenn.cit594.datamanagement.ParkingReader;
-import edu.upenn.cit594.processor.ParkingProcessor;
+import edu.upenn.cit594.datamanagement.ParkingViolationReader;
+import edu.upenn.cit594.processor.ParkingViolationProcessor;
 import edu.upenn.cit594.processor.PopulationProcessor;
 import edu.upenn.cit594.processor.PropertyProcessor;
 import edu.upenn.cit594.ui.UserInterface;
@@ -37,7 +37,7 @@ public class Main {
 		String logFilename = args[3];
 		String fileFormat = tweetsFileFormat.toLowerCase();
 		
-		The format of the parking violations input file, either “csv” or “json”
+		The format of the parking violations input file, either ï¿½csvï¿½ or ï¿½jsonï¿½
         The name of the parking violations input file
         The name of the property values input file
         The name of the population input file
@@ -54,11 +54,11 @@ public class Main {
 		String fileFormat = parkingFileFormat.toLowerCase();
 		
 
-		ParkingProcessor parkingProcessor = new ParkingProcessor(parkingFilename, populationFilename);
+		ParkingViolationProcessor parkingViolationProcessor = new ParkingViolationProcessor(parkingFilename, populationFilename);
 		PopulationProcessor populationProcessor = new PopulationProcessor(populationFilename);
 		PropertyProcessor propertyProcessor = new PropertyProcessor(propertyFilename, 
 				populationFilename, parkingFilename);
-		UserInterface ui = new UserInterface(parkingProcessor, propertyProcessor, populationProcessor);
+		UserInterface ui = new UserInterface(parkingViolationProcessor, propertyProcessor, populationProcessor);
 		ui.start();
 	}
 }

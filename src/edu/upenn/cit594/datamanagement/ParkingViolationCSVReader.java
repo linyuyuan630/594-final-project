@@ -8,10 +8,10 @@ import java.util.List;
 
 import edu.upenn.cit594.data.ParkingViolation;
 
-public class ParkingCSVReader extends ParkingReader{
+public class ParkingViolationCSVReader extends ParkingViolationReader{
 	List<ParkingViolation> allParkingViolations;
 	
-	public ParkingCSVReader(String parkingFilename) {
+	public ParkingViolationCSVReader(String parkingFilename) {
 		this.loadParkingViolations(parkingFilename);
 	}
 	

@@ -58,10 +58,10 @@ public class PropertyProcessor {
 	public double totalResidentialMktValuePerCapita(String zipCode) {
 		PopulationProcessor populations = new PopulationProcessor(populationFilename);
 		int populationInZipCode = populations.totalPopulationInZipCode(zipCode);
-		int totalValue = 0;
+		double totalValue = 0;
 		for (int i = 0; i < propertyList.size(); i++ ) {
 			String propertyZipCode = propertyList.get(i).getZipCode();
-			Integer propertyMktValue = propertyList.get(i).getMarketValue();
+			Double propertyMktValue = propertyList.get(i).getMarketValue();
 			if (propertyMktValue != null && propertyZipCode != null) {
 				if (zipCode.equals(propertyZipCode)) {
 					totalValue += propertyMktValue;
@@ -83,14 +83,14 @@ public class PropertyProcessor {
 	 */
 
 	public double fineMktValueCorrelation() {
-		Map<String, Integer> propertyMktValueOfZipCode = new HashMap<String, Integer>();
+		Map<String, Double> propertyMktValueOfZipCode = new HashMap<String, Double>();
 		for (int i = 0; i < propertyList.size(); i++ ) {
 			String propertyZipCode = propertyList.get(i).getZipCode();
-			Integer propertyMktValue = propertyList.get(i).getMarketValue();
+			Double propertyMktValue = propertyList.get(i).getMarketValue();
 			if (propertyMktValue != null && propertyZipCode != null) {
 				if(propertyMktValueOfZipCode.keySet().contains(propertyZipCode)) {
-					int totalValue = propertyMktValueOfZipCode.get(propertyZipCode);
-					totalValue = totalValue + Integer.valueOf(propertyMktValue);
+					double totalValue = propertyMktValueOfZipCode.get(propertyZipCode);
+					totalValue = totalValue + Double.valueOf(propertyMktValue);
 					propertyMktValueOfZipCode.put(propertyZipCode, totalValue);
 				}
 				else {
@@ -104,7 +104,7 @@ public class PropertyProcessor {
 			int populationInZipCode = populations.totalPopulationInZipCode(code);
 			mktValuePerCapita.put(code, propertyMktValueOfZipCode.get(code) / populationInZipCode * 0.1);
 		}
-		ParkingProcessor parkingViolations = new ParkingProcessor (parkingFilename, populationFilename);
+		ParkingViolationProcessor parkingViolations = new ParkingViolationProcessor (parkingFilename, populationFilename);
 		Map<String, Double> finePerCapita = parkingViolations.TotalFinePerCapita();
 		
 		double varFinePerCapita = StatisticalComputer.computeCovariance(finePerCapita, finePerCapita);

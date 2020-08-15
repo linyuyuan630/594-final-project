@@ -21,8 +21,8 @@ public class Logger {
 	
 	//need to change
 	
-	public void log(String state, String tweet) {
-		out.println(state + "\t" + tweet);
+	public void log(String message) {
+		out.println(message);
 		out.flush();
 	}
 }

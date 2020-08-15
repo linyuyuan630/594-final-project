@@ -8,7 +8,7 @@ public class AverageTotalLivableArea implements AverageInZipCode{
 	@Override
 	public double averageInZipCode(String zipCode, List<Property> propertyList) {
 		int propertyCounter = 0;
-		int totalAreaValue = 0;
+		double totalAreaValue = 0;
 		for (int i = 0; i < propertyList.size(); i++ ) {
 			String propertyZipCode = propertyList.get(i).getZipCode();
 			Integer propertyLivableArea = propertyList.get(i).getTotalLiverableArea();

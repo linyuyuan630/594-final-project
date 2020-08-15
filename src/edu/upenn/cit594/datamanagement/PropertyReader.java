@@ -32,17 +32,17 @@ public class PropertyReader {
 	        int marketValueIndex = 0;
 	        int totalLivableAreaIndex = 0;
 	        int zipCodeIndex = 0;
-	        Integer marketValue;
+	        Double marketValue;
 	        Integer totalLivableArea;
 	        String zipCode;
 	        for (int i = 0; i < columnNames.length; i++) {
-	        	if (columnNames[i].equals("market_value")) {
+	        	if (columnNames[i].equalsIgnoreCase("market_value")) {
 	        		marketValueIndex = i;
 	        	}
-	        	else if (columnNames[i].equals("total_livable_area")) {
+	        	else if (columnNames[i].equalsIgnoreCase("total_livable_area")) {
 	        		totalLivableAreaIndex = i;
 	        	}
-	        	else if (columnNames[i].equals("zip_code")) {
+	        	else if (columnNames[i].equalsIgnoreCase("zip_code")) {
 	        		zipCodeIndex = i;
 	        	}
 	        }
@@ -50,25 +50,24 @@ public class PropertyReader {
 	        
 			while (line != null) {
 				String[] lineInfo = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
-				if (CheckNumeric.isNumeric(lineInfo[marketValueIndex]) == false) {
+				try {
+					marketValue = Double.valueOf(lineInfo[marketValueIndex]);
+				}catch (Exception e) {
 					marketValue = null;
 				}
-				else {
-					marketValue = Integer.valueOf(lineInfo[marketValueIndex]);
-				}
 				
-				if (CheckNumeric.isNumeric(lineInfo[totalLivableAreaIndex]) == false) {
+				try {
+					totalLivableArea = Integer.valueOf(lineInfo[totalLivableAreaIndex]);
+				}catch (Exception e) {
 					totalLivableArea = null;
 				}
-				else {
-					totalLivableArea = Integer.valueOf(lineInfo[totalLivableAreaIndex]);
-				}
 				
-				if (CheckNumeric.isNumeric(lineInfo[zipCodeIndex]) == false) {
+				zipCode = lineInfo[zipCodeIndex];
+				if (zipCode.length()<5) {
 					zipCode = null;
 				}
 				else {
-					zipCode = lineInfo[zipCodeIndex].substring(0, 5);
+					zipCode = zipCode.substring(0, 5);
 				}
 				
 				Property propertyEntry = new Property(marketValue, totalLivableArea, zipCode);
@@ -78,7 +77,6 @@ public class PropertyReader {
 	        
 		}
 		catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 	}

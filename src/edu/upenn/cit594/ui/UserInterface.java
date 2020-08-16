@@ -120,7 +120,10 @@ public class UserInterface {
 		return intPart+"."+fracPart;
 	}
 	
-	
+	/**
+	 * The average residential market value that your program displays must be ​truncated​ to an integer (not rounded!), 
+	 * and your program should display 0 if there are no homes in that ZIP Code listed in the properties input file.
+	 */
 	private void averageMarketValue() {
 		System.out.print("Enter a zip code: ");
 		String zipCode = in.next();
@@ -134,7 +137,14 @@ public class UserInterface {
 //		System.out.println("The avarage market value of " + zipCode + " is : " + (int)averageMktValue);
 	}
 	
-	
+	/**
+	 * Your program should then display (to the console) the average total livable area for residences in that ZIP Code, 
+	 * i.e. the sum of the total livable areas for all homes in the ZIP Code divided by the number of homes.
+	 * Note that you are dividing by the number of homes in that ZIP Code as listed in the property values input file, 
+	 * and not the population of that ZIP Code from the population input file.
+	 * The average residential total livable area must be displayed as a truncated integer, 
+	 * and your program should display 0 if there are no homes in that ZIP Code listed in the properties input file.
+	 */
 	private void averageTotalLivableArea() {
 		System.out.print("Enter a zip code: ");
 		String zipCode = in.next();
@@ -149,6 +159,15 @@ public class UserInterface {
 //		System.out.println("The avarage total livable area of " + zipCode + " is : " + averageTLA);
 	}
 	
+	/**
+	 * Your program should then display (to the console) the total market value per capita for that ZIP Code, 
+	 * i.e. the total market value for all residences in the ZIP Code divided by the population of that ZIP Code, 
+	 * as provided in the population input file.
+	 * The residential market value per capita must be displayed as a truncated integer, 
+	 * and your program should display 0 if the total residential market value for the ZIP Code is 0, 
+	 * if the population of the ZIP Code is 0, or if the user enters a ZIP Code that is not listed in the population input file.
+	 * @throws IOException
+	 */
 	private void totalResidentialMarketValuePerCapita() throws IOException {
 		System.out.print("Enter a zip code: ");
 		String zipCode = in.next();

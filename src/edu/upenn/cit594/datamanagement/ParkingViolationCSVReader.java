@@ -36,13 +36,17 @@ public class ParkingViolationCSVReader extends ParkingViolationReader{
 	        //logging
 			Logger.getInstance().log(System.currentTimeMillis()+" Openning file:"+parkingFilename);
 	        String line = br.readLine();
+	        Integer fine = 0;
+	        String zipCode = null;
+	        String state = null;
 			while (line != null) {
 				String[] lineInfo = line.split(",");
-				Integer fine = Integer.valueOf(lineInfo[1]);
-				String zipCode = lineInfo[lineInfo.length - 1];
+				fine = Integer.valueOf(lineInfo[1]);
+				zipCode = lineInfo[lineInfo.length - 1];
+				state = lineInfo[lineInfo.length - 3];
 				//System.out.println(fine);
 				//System.out.println(zipCode);
-				ParkingViolation parkingEntry = new ParkingViolation(fine, zipCode);
+				ParkingViolation parkingEntry = new ParkingViolation(fine, zipCode, state);
 				allParkingViolations.add(parkingEntry);
 				line = br.readLine();
 			}

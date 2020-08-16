@@ -54,7 +54,7 @@ public class PropertyReader {
 	        int totalLivableAreaIndex = 0;
 	        int zipCodeIndex = 0;
 	        Double marketValue;
-	        Integer totalLivableArea;
+	        Double totalLivableArea;
 	        String zipCode;
 	        for (int i = 0; i < columnNames.length; i++) {
 	        	if (columnNames[i].equalsIgnoreCase("market_value")) {
@@ -68,29 +68,26 @@ public class PropertyReader {
 	        	}
 	        }
 	        line = br.readLine();
-	        
+//	        int i=1;
 			while (line != null) {
+				//to check this logic
 				String[] lineInfo = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
 				try {
-					marketValue = Double.valueOf(lineInfo[marketValueIndex]);
+					marketValue = Double.valueOf(lineInfo[marketValueIndex].trim());
 				}catch (Exception e) {
 					marketValue = null;
 				}
-				
+//				String totalLivableAreaStr = lineInfo[totalLivableAreaIndex];
 				try {
-					totalLivableArea = Integer.valueOf(lineInfo[totalLivableAreaIndex]);
+					totalLivableArea = Double.valueOf(lineInfo[totalLivableAreaIndex].trim());
 				}catch (Exception e) {
 					totalLivableArea = null;
 				}
 				
 				zipCode = lineInfo[zipCodeIndex];
-				if (zipCode.length()<5) {
-					zipCode = null;
-				}
-				else {
-					zipCode = zipCode.substring(0, 5);
-				}
-				
+
+//				System.err.println(i+":"+"zipCode="+zipCode+", marketValue"+marketValue+" ,totalLivableAreaStr"+totalLivableAreaStr+" ,totalLivableArea"+totalLivableArea);
+//				i++;
 				Property propertyEntry = new Property(marketValue, totalLivableArea, zipCode);
 				propertyList.add(propertyEntry);
 				line = br.readLine();
@@ -102,6 +99,10 @@ public class PropertyReader {
 		} 
 	}
 	
+	/**
+	 * 
+	 * @return all properties
+	 */
 	public List<Property> readAllProperties() {
 		return propertyList;
 	}

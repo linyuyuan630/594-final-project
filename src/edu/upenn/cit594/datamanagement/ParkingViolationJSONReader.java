@@ -15,6 +15,11 @@ import org.json.simple.parser.ParseException;
 import edu.upenn.cit594.data.ParkingViolation;
 import edu.upenn.cit594.logging.Logger;
 
+/**
+ * 
+ * @author zhongliu
+ *
+ */
 public class ParkingViolationJSONReader extends ParkingViolationReader{
 	protected String parkingFilename;
 	
@@ -54,7 +59,7 @@ public class ParkingViolationJSONReader extends ParkingViolationReader{
 			JSONObject parkingViolation = (JSONObject) iter.next();
 			// use the "get" method to print the value associated with that key
 			ParkingViolation parkingEntry = new ParkingViolation(Integer.valueOf(parkingViolation.get("fine").toString()),
-					parkingViolation.get("zip_code").toString());
+					parkingViolation.get("zip_code").toString(),parkingViolation.get("state").toString());
 			allParkingViolations.add(parkingEntry);
 			}
 		}

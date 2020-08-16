@@ -75,6 +75,7 @@ public class UserInterface {
 		}catch(Exception e) {
 			System.out.println("Wrong input, please re-run the program, enter a number between 0 to 6. ");
 			in.close();
+			e.printStackTrace();
 		}
 	}
 	
@@ -82,11 +83,41 @@ public class UserInterface {
 		System.out.println(populationProcessor.totalPopulation());
 	}
 	
+	//The ZIP Codes must be written to the screen in ascending numerical order 
+	//and the total fines per capita must be displayed with a precision of four digits after the decimal point, 
+	//as in the example above. The values must be ​truncated​, not rounded, e.g. 1.23459999 should be shown as 1.2345 
+	//and not 1.2346. Additionally, your program should display trailing zeros that occur at the end of the four digits 
+	//after the decimal point, e.g. it should show 1.2300 and not just 1.23.
 	private void totalFinesPerCapita() throws IOException {
 		Map<String, Double> tm = parkingViolationProcessor.TotalFinePerCapita();
 		for (Entry<String, Double> entry : tm.entrySet()) {
-		     System.out.println(entry.getKey() + ":  " + entry.getValue());
+		     System.out.println(entry.getKey() + ":  " + this.displayValueOfFinePerCapita(entry.getValue()));
 		}
+	}
+	
+	/**
+	 * to get a displayable value per requested in the spec. 
+	 * @param origFine original value in Double
+	 * @return formated value in String
+	 */
+	private String displayValueOfFinePerCapita(Double origFine) {
+		if(origFine==null) return null;
+		
+		String orig = String.valueOf(origFine);
+//		System.out.println("orig="+orig);
+		String doubleInfo[] = orig.split("\\.");
+		if(doubleInfo.length<1) return null;
+		String intPart = doubleInfo[0];
+		String fracPart="";
+		if(doubleInfo.length>1) {
+			fracPart = doubleInfo[1];
+		}
+		if(fracPart.length()<4) {
+			fracPart = fracPart+"0000".substring(0,4-fracPart.length());
+		}else {
+			fracPart = fracPart.substring(0,4);
+		}
+		return intPart+"."+fracPart;
 	}
 	
 	
@@ -113,6 +144,7 @@ public class UserInterface {
 		//The average residential total livable area must be displayed as a truncated integer, 
 		//and your program should display 0 if there are no homes in that ZIP Code listed in the properties input file.
 		//Your program must not write ​any​ other information to the console.​
+//		System.out.println(averageTLA);
 		System.out.println((int)averageTLA);
 //		System.out.println("The avarage total livable area of " + zipCode + " is : " + averageTLA);
 	}

@@ -7,7 +7,10 @@ import edu.upenn.cit594.data.ParkingViolation;
 
 public abstract class ParkingViolationReader {	
 	
-	
+	/**
+	 * get a list of parking violations
+	 * @return
+	 */
 	public abstract List<ParkingViolation> readAllParkingViolations();
 	
 	/**
@@ -20,6 +23,7 @@ public abstract class ParkingViolationReader {
 		if (fileName == null) {
 			return null;
 		}
+		//removed following. should use given file format from user. 
 //		String fileExtension = "";
 //		int i = fileName.lastIndexOf('.');
 //		if (i >= 0) { 
@@ -35,16 +39,5 @@ public abstract class ParkingViolationReader {
 		return null;
 		
 	}
-	
-	/**
-	public int totalFinePerCapital() {
-		return -1;
-	}
-	
-	public int totalFinePerCapital(String zipCode) {
-		return -1;
-	}
-	**/
-
 
 }

@@ -61,14 +61,21 @@ public class Main {
 					" "+logFilename
 					);
 	
-			ParkingViolationProcessor parkingViolationProcessor = new ParkingViolationProcessor(parkingFileFormat,parkingFilename, populationFilename);
+			System.out.println("Pre-loading files to run program faster when it's done...This might take a few minutes vary mainly depending on memory size of your machine...");
+			
 			PopulationProcessor populationProcessor = new PopulationProcessor(populationFilename);
+			
+			ParkingViolationProcessor parkingViolationProcessor = new ParkingViolationProcessor(parkingFileFormat,parkingFilename, populationProcessor);
+			
 			PropertyProcessor propertyProcessor = new PropertyProcessor(propertyFilename, 
 					parkingViolationProcessor, populationProcessor);
+			
 			UserInterface ui = new UserInterface(parkingViolationProcessor, propertyProcessor, populationProcessor);
+			
 			ui.start();
+			
 		}catch (Exception e) {
-			System.out.println("run time arguments not correct! Please make sure all input files exist");
+			System.out.println("Run time arguments not correct! Please make sure all input files exist");
 			System.exit(1);
 		}
 	}

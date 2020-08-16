@@ -1,5 +1,10 @@
 package edu.upenn.cit594.data;
 
+/**
+ * Population data object
+ * @author zhongliu
+ *
+ */
 public class Population {
 	private String zipCode;
 	private Integer population;

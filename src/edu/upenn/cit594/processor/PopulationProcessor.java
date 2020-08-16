@@ -8,6 +8,11 @@ import java.util.Set;
 import edu.upenn.cit594.data.Population;
 import edu.upenn.cit594.datamanagement.PopulationReader;
 
+/**
+ * 
+ * @author zhongliu
+ *
+ */
 public class PopulationProcessor {
 	
 	protected PopulationReader populationReader;
@@ -29,7 +34,10 @@ public class PopulationProcessor {
 		return codeSet;
 	}
 	
-	
+	/**
+	 * 
+	 * @return totalPopulation
+	 */
 	public int totalPopulation() {
 		int total = 0;
 		for (int i = 0; i < populationList.size(); i++)  {
@@ -39,6 +47,11 @@ public class PopulationProcessor {
 		return total;
 	}
 	
+	/**
+	 * total population in given zipcode
+	 * @param zipCode
+	 * @return
+	 */
 	public int totalPopulationInZipCode(String zipCode) {
 		int totalInZipCode = 0;
 		for(int i = 0; i < populationList.size(); i++) {
@@ -48,11 +61,5 @@ public class PopulationProcessor {
 		}
 		return totalInZipCode;
 	}
-	
-	/**
-	 * 1. Total Population for All ZIP Codes
-	 * @return
-	 */
-	
 
 }

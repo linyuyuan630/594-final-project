@@ -1,6 +1,7 @@
 package edu.upenn.cit594.logging;
 
-import java.io.File;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.PrintWriter;
 
 public class Logger {
@@ -8,7 +9,9 @@ public class Logger {
 	private PrintWriter out;
 	private Logger(String filename) {
 		try {
-			out = new PrintWriter(new File(filename));
+			FileWriter f = new FileWriter(filename,true);
+			BufferedWriter bw = new BufferedWriter(f);
+			out = new PrintWriter(bw);
 		}
 		catch (Exception e) {}
 	}

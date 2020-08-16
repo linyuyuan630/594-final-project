@@ -9,6 +9,11 @@ import java.util.Map;
 import edu.upenn.cit594.data.Property;
 import edu.upenn.cit594.datamanagement.PropertyReader;
 
+/**
+ * 
+ * @author zhongliu
+ *
+ */
 public class PropertyProcessor {
 	private ParkingViolationProcessor parkingProcessor;
 	private PopulationProcessor populationProcessor;
@@ -49,14 +54,10 @@ public class PropertyProcessor {
 	 * @return
 	 */
 	public double averageTotalLivableArea(String zipCode) {
-		Average averageMktValue = new Average(new AverageTotalLivableArea());
-		return averageMktValue.computeStrategy(zipCode, propertyList);
+		Average averageLivAreaValue = new Average(new AverageTotalLivableArea());
+		return averageLivAreaValue.computeStrategy(zipCode, propertyList);
 	}
 	
-	/**
-	 * this is a helper method
-	 */
-
 
 	/**
 	 * 5. Total Residential Market Value Per Capita

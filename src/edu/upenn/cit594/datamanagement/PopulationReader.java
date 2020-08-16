@@ -53,30 +53,13 @@ public class PopulationReader {
 		}
 	}
 	
+	/**
+	 * get all Population data from a list. 
+	 * @return
+	 */
 	public List<Population> readAllPopulation() {
 		return populationList;	
 	}
-	/**
-	public int totalPopulation() {
-		int total = 0;
-		for (int i = 0; i < populationList.size(); i++)  {
-			int population = populationList.get(i).getPopulation();
-			total = total + population;
-		}
-		return total;
-	}
-	
-	public int totalPopulation(String zipCode) {
-		int totalInZipCode = 0;
-		for(int i = 0; i < populationList.size(); i++) {
-			if (zipCode.equals(populationList.get(i).getZipCode())) {
-				 totalInZipCode = totalInZipCode + populationList.get(i).getPopulation();
-			}
-		}
-		return totalInZipCode;
-	}
-	**/
-
 
 }
 

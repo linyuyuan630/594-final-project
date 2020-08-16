@@ -61,7 +61,7 @@ public class Main {
 					" "+logFilename
 					);
 	
-			System.out.println("Pre-loading files to run program faster when it's done...This might take a few minutes vary mainly depending on memory size of your machine...");
+			System.out.println("Preloading files to run program faster (Precache files into memory)...\nThis might take a few minutes vary mainly depending on memory size of your machine...");
 			
 			PopulationProcessor populationProcessor = new PopulationProcessor(populationFilename);
 			

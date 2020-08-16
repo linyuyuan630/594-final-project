@@ -1,6 +1,7 @@
 package edu.upenn.cit594.ui;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Scanner;
@@ -79,23 +80,33 @@ public class UserInterface {
 		}
 	}
 	
+	private Integer totalPopolationCache = null; 
 	private void totalPopulationforAllZiPCodes() {
-		System.out.println(populationProcessor.totalPopulation());
+		if(totalPopolationCache==null) { //memoization/cache assuming data file won't be changed during this program run time or it doesn't matter
+//			System.out.println("totalPopolationCache cache miss");
+			totalPopolationCache = populationProcessor.totalPopulation();
+		}
+		System.out.println(totalPopolationCache);
 	}
 	
+	private Map<String, Double> totalFinesPerCapitaMapCache = null;
 	//The ZIP Codes must be written to the screen in ascending numerical order 
 	//and the total fines per capita must be displayed with a precision of four digits after the decimal point, 
 	//as in the example above. The values must be ​truncated​, not rounded, e.g. 1.23459999 should be shown as 1.2345 
 	//and not 1.2346. Additionally, your program should display trailing zeros that occur at the end of the four digits 
 	//after the decimal point, e.g. it should show 1.2300 and not just 1.23.
 	private void totalFinesPerCapita() throws IOException {
-		Map<String, Double> tm = parkingViolationProcessor.TotalFinePerCapita();
-		for (Entry<String, Double> entry : tm.entrySet()) {
+		if(totalFinesPerCapitaMapCache==null) {//memoization
+//			System.out.println("totalFinesPerCapitaMapCache cache miss");
+			totalFinesPerCapitaMapCache = parkingViolationProcessor.TotalFinePerCapita();
+		}
+		for (Entry<String, Double> entry : totalFinesPerCapitaMapCache.entrySet()) {
 		     System.out.println(entry.getKey() + ":  " + this.displayValueOfFinePerCapita(entry.getValue()));
 		}
 	}
 	
 	/**
+	 * Helper method. Can be moved out to this class. But given this project is small, leave it here for now. 
 	 * to get a displayable value per requested in the spec. 
 	 * @param origFine original value in Double
 	 * @return formated value in String
@@ -120,6 +131,7 @@ public class UserInterface {
 		return intPart+"."+fracPart;
 	}
 	
+	private HashMap<String,Double> averageMktValueCacheMap = new HashMap<>();
 	/**
 	 * The average residential market value that your program displays must be ​truncated​ to an integer (not rounded!), 
 	 * and your program should display 0 if there are no homes in that ZIP Code listed in the properties input file.
@@ -129,14 +141,20 @@ public class UserInterface {
 		String zipCode = in.next();
 		//logging
 		Logger.getInstance().log(System.currentTimeMillis()+" "+"user's input zipcode:"+zipCode);
-		double averageMktValue = propertyProcessor.averageMarketValue(zipCode);
+		Double averageMktValueCache = averageMktValueCacheMap.get(zipCode);
+		if(averageMktValueCache==null) {//memoization
+//			System.out.println("averageMktValueCache cache miss, zip="+zipCode);
+			averageMktValueCache = propertyProcessor.averageMarketValue(zipCode);
+			averageMktValueCacheMap.put(zipCode, averageMktValueCache);
+		}
 		//The average residential market value that your program displays must be ​truncated​ to an integer (not rounded!), 
 		//and your program should display 0 if there are no homes in that ZIP Code listed in the properties input file.
 		//Your program must not write ​any​ other information to the console.​
-		System.out.println((int)averageMktValue);
+		System.out.println((int)averageMktValueCache.doubleValue());
 //		System.out.println("The avarage market value of " + zipCode + " is : " + (int)averageMktValue);
 	}
 	
+	private HashMap<String,Double> averageTLACacheMap = new HashMap<>();
 	/**
 	 * Your program should then display (to the console) the average total livable area for residences in that ZIP Code, 
 	 * i.e. the sum of the total livable areas for all homes in the ZIP Code divided by the number of homes.
@@ -150,15 +168,24 @@ public class UserInterface {
 		String zipCode = in.next();
 		//logging
 		Logger.getInstance().log(System.currentTimeMillis()+" "+"user's input zipcode:"+zipCode);
-		double averageTLA = propertyProcessor.averageTotalLivableArea(zipCode);
+		
+		Double averageTLACache = averageTLACacheMap.get(zipCode);
+		
+		if(averageTLACache==null) {//memoization
+//			System.out.println("averageTLACache cache miss, zip="+zipCode);
+			averageTLACache = propertyProcessor.averageTotalLivableArea(zipCode);
+			averageTLACacheMap.put(zipCode, averageTLACache);
+		}
 		//The average residential total livable area must be displayed as a truncated integer, 
 		//and your program should display 0 if there are no homes in that ZIP Code listed in the properties input file.
 		//Your program must not write ​any​ other information to the console.​
 //		System.out.println(averageTLA);
-		System.out.println((int)averageTLA);
+		System.out.println((int)averageTLACache.doubleValue());
 //		System.out.println("The avarage total livable area of " + zipCode + " is : " + averageTLA);
 	}
 	
+	
+	private HashMap<String,Double> totalMktValuePerCapitaCacheMap = new HashMap<>();
 	/**
 	 * Your program should then display (to the console) the total market value per capita for that ZIP Code, 
 	 * i.e. the total market value for all residences in the ZIP Code divided by the population of that ZIP Code, 
@@ -173,16 +200,27 @@ public class UserInterface {
 		String zipCode = in.next();
 		//logging
 		Logger.getInstance().log(System.currentTimeMillis()+" "+"user's input zipcode:"+zipCode);
-		double mktValuePerCapita = propertyProcessor.totalResidentialMktValuePerCapita(zipCode);
-//		System.out.println(mktValuePerCapita);
-		System.out.println((int)mktValuePerCapita);
+		
+		Double mktValuePerCapitaCache = totalMktValuePerCapitaCacheMap.get(zipCode);
+		if(mktValuePerCapitaCache==null) {//cache
+//			System.out.println("mktValuePerCapitaCache cache miss, zip="+zipCode);
+			mktValuePerCapitaCache = propertyProcessor.totalResidentialMktValuePerCapita(zipCode);
+			totalMktValuePerCapitaCacheMap.put(zipCode, mktValuePerCapitaCache);
+		}
+		
+//		System.out.println(mktValuePerCapitaCache);
+		System.out.println((int)mktValuePerCapitaCache.doubleValue());
 //		System.out.println("Total Residential Market Value Per Capita of " + zipCode + " is : " + mktValuePerCapita);
 	}
 	
+	private Double fineMktValueCorrelationCache = null;
 	private void correlationCoefficientOfFineAndMarketValue() throws IOException {
-		double fineMktValueCorrelation = propertyProcessor.fineMktValueCorrelation();
+		if(fineMktValueCorrelationCache==null) { //cache
+//			System.out.println("fineMktValueCorrelationCache cache miss");
+			fineMktValueCorrelationCache = propertyProcessor.fineMktValueCorrelation();
+		}
 		System.out.println("cross-correlation coefficient between fine per capita and residential "
-				+ "market value per Capita for all zip codes  is : " + fineMktValueCorrelation);
+				+ "market value per Capita for all zip codes  is : " + fineMktValueCorrelationCache);
 	}
 
 }

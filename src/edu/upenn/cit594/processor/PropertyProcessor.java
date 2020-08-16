@@ -3,8 +3,10 @@ package edu.upenn.cit594.processor;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import edu.upenn.cit594.data.Property;
 import edu.upenn.cit594.datamanagement.PropertyReader;
@@ -94,6 +96,7 @@ public class PropertyProcessor {
 
 	public double fineMktValueCorrelation() throws IOException {
 		Map<String, Double> propertyMktValueOfZipCode = new HashMap<String, Double>();
+		Set<String> PAZipCode = this.parkingProcessor.TotalFinePerCapita().keySet();
 		for (int i = 0; i < propertyList.size(); i++ ) {
 			String propertyZipCode = propertyList.get(i).getZipCode();
 			Double propertyMktValue = propertyList.get(i).getMarketValue();
@@ -109,20 +112,37 @@ public class PropertyProcessor {
 			}
 		}
 		Map<String, Double> mktValuePerCapita = new HashMap<String, Double>();
+//		ParkingViolationProcessor parkingViolations = new ParkingViolationProcessor (parkingFilename, populationFilename);
+		Map<String, Double> finePerCapita = this.parkingProcessor.TotalFinePerCapita();
 		for (String code : propertyMktValueOfZipCode.keySet()) {
 //			PopulationProcessor populations = new PopulationProcessor(populationFilename);
 			int populationInZipCode = this.populationProcessor.totalPopulationInZipCode(code);
-			mktValuePerCapita.put(code, propertyMktValueOfZipCode.get(code) / populationInZipCode * 0.1);
+			//System.out.println(code);
+			//System.out.println("pop=" + populationInZipCode + "mkt=" + propertyMktValueOfZipCode.get(code));
+			if (populationInZipCode != 0 && finePerCapita.keySet().contains(code) == true) {
+				mktValuePerCapita.put(code, propertyMktValueOfZipCode.get(code) / (populationInZipCode + 0.0));
+			}	
 		}
-//		ParkingViolationProcessor parkingViolations = new ParkingViolationProcessor (parkingFilename, populationFilename);
-		Map<String, Double> finePerCapita = this.parkingProcessor.TotalFinePerCapita();
 		
-		double varFinePerCapita = StatisticalComputer.computeCovariance(finePerCapita, finePerCapita);
+		// need to make sure only both fine per capita and market value maps contains the zip codes
+		// for the computation of correlation coefficient
+		int fineDataSize = finePerCapita.size();
+		int mktDataSize = mktValuePerCapita.size();
+		Map<String, Double> convertedFinePerCapita = new HashMap<String, Double>();
+		if (fineDataSize > mktDataSize) {
+			for (String code : mktValuePerCapita.keySet()) {
+				convertedFinePerCapita.put(code, finePerCapita.get(code));
+			}
+		}
+		else {
+			convertedFinePerCapita = finePerCapita;
+		}
+		double varFinePerCapita = StatisticalComputer.computeCovariance(convertedFinePerCapita, convertedFinePerCapita);
 		double varMktPerCapita = StatisticalComputer.computeCovariance(mktValuePerCapita, mktValuePerCapita);
-		double cov = StatisticalComputer.computeCovariance(mktValuePerCapita, finePerCapita);
-		double CorrelationCoefficient = cov / Math.sqrt(varFinePerCapita * varMktPerCapita);
+		double cov = StatisticalComputer.computeCovariance(mktValuePerCapita, convertedFinePerCapita);
+		double correlationCoefficient = cov / Math.sqrt(varFinePerCapita * varMktPerCapita);
 		
-		return CorrelationCoefficient;
+		return correlationCoefficient;
 		
 	}
 	

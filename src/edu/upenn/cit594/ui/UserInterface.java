@@ -75,7 +75,7 @@ public class UserInterface {
 		}catch(Exception e) {
 			System.out.println("Wrong input, please re-run the program, enter a number between 0 to 6. ");
 			in.close();
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
 	}
 	
